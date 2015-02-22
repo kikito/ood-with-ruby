@@ -1,0 +1,127 @@
+/**
+ * Kikito theme for reveal.js.
+ *
+ * Copyright (C) 2014 Enrique García - kiki.to
+ *
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic);
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #111;
+
+$mainFont: 'Open Sans', sans-serif;
+$linkColor: #e7ad52;
+$linkColorHover: lighten( $linkColor, 20% );
+$headingFont: 'Montserrat', Impact, sans-serif;
+$headingTextShadow: none;
+$heading1TextShadow: none;
+$headingLetterSpacing: -0.03em;
+$headingTextTransform: none;
+$mainFontSize: 40px;
+
+$mainColor: #333;
+$headingColor: #333;
+$backgroundColor: #f7fbfc;
+$linkColor: #3b759e;
+$linkColorHover: lighten( $linkColor, 20% );
+$selectionBackgroundColor: #134674;
+
+$altColor: #ffffea;
+$altLinkColor: lighten($linkColor, 30%);
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+
+
+.reveal{
+
+  .tall {
+    height: 100%;
+  }
+
+  pre {
+    font-size: 0.8em;
+    code {
+      padding: 1em;
+      overflow: hidden;
+    }
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    margin-bottom: 0.5em;
+  }
+  section{
+    &[data-background] {
+      h1,h2,h3,h4,h5,h6,p {
+        color: $altColor;
+        text-shadow: 1px 1px 1px #666;
+      }
+      a {
+        color: $altLinkColor;
+      }
+
+      blockquote {
+        background: $altColor;
+        padding: 0.75em;
+        border-radius: 10px;
+        top: 50px;
+        box-shadow: none;
+        border: 1px solid rgba(0,0,0,0.5);
+        p {
+          text-align: left;
+          color: $mainColor;
+          text-shadow: none;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          border-style: solid;
+          border-width: 15px 15px 0;
+          border-color: $altColor transparent;
+          display: block;
+          width: 0;
+          z-index: 1;
+          bottom: -15px;
+          left: 150px;
+        }
+        &:before {
+          content: '';
+          position: absolute;
+          border-style: solid;
+          border-width: 15px 15px 0;
+          border-color: rgba(0,0,0,0.5) transparent;
+          display: block;
+          width: 0;
+          z-index: 0;
+          bottom: -16px;
+          left: 150px;
+        }
+      }
+
+    }
+
+    img {
+      border: none;
+
+      &.plain {
+        box-shadow: none;
+      }
+
+    }
+
+  }
+}
+
