@@ -44,8 +44,6 @@ $altLinkColor: lighten($linkColor, 30%);
 @import "../template/theme";
 // ---------------------------------------------
 
-
-
 .reveal{
 
   .tall {
@@ -53,8 +51,9 @@ $altLinkColor: lighten($linkColor, 30%);
   }
 
   pre {
-    font-size: 0.8em;
+    font-size: 1em;
     code {
+      @extend .hljs;
       padding: 1em;
       overflow: hidden;
     }
@@ -72,45 +71,6 @@ $altLinkColor: lighten($linkColor, 30%);
       a {
         color: $altLinkColor;
       }
-
-      blockquote {
-        background: $altColor;
-        padding: 0.75em;
-        border-radius: 10px;
-        top: 50px;
-        box-shadow: none;
-        border: 1px solid rgba(0,0,0,0.5);
-        p {
-          text-align: left;
-          color: $mainColor;
-          text-shadow: none;
-        }
-        &:after {
-          content: '';
-          position: absolute;
-          border-style: solid;
-          border-width: 15px 15px 0;
-          border-color: $altColor transparent;
-          display: block;
-          width: 0;
-          z-index: 1;
-          bottom: -15px;
-          left: 150px;
-        }
-        &:before {
-          content: '';
-          position: absolute;
-          border-style: solid;
-          border-width: 15px 15px 0;
-          border-color: rgba(0,0,0,0.5) transparent;
-          display: block;
-          width: 0;
-          z-index: 0;
-          bottom: -16px;
-          left: 150px;
-        }
-      }
-
     }
 
     img {
