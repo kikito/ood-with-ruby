@@ -129,6 +129,64 @@ puts "Hello World!"
 
 ***
 
+## Responsibility
+
+***
+
+> The reason a class has to change
+
+***
+
+<!-- .slide: data-background="./img/ring.jpg" -->
+
+***
+
+``` ruby
+class Person
+  attr_accessor :salary, :height, :width
+
+  def initialize(salary, height, weight)
+    @salary = salary
+    @height = height
+    @weight = weight
+  end
+
+  def body_mass
+    weight / (height * height)
+  end
+
+  def due_pay(days)
+    salary * days
+  end
+end
+
+```
+
+***
+
+``` ruby
+class Person
+  attr_accessor :salary, :body
+
+  def initialize(salary, body)
+    @salary = salary
+    @body = body
+  end
+
+  def body_mass
+    body.mass
+  end
+
+  def due_pay(days)
+    salary * days
+  end
+end
+
+```
+
+***
+
+
 ## Dependencies
 
 ***
@@ -142,8 +200,13 @@ class House
   def initialize(neighborhood, )
     x
   end
+
   def area
     Rect.new(@width, @height).area
+  end
+
+  def foo
+    far
   end
 end
 
@@ -178,6 +241,16 @@ end
         controls: true,
         progress: true,
         history: true,
+
+        width: 960,
+        height: 700,
+
+        margin: 0.1,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+        maxScale: 1,
+
         center: true,
 
         theme: 'kikito',
