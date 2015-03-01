@@ -262,10 +262,11 @@ body {
 .reveal .tall {
   height: 100%; }
 .reveal pre {
-  font-size: 1em; }
+  font-size: 0.7em; }
   .reveal pre code {
     padding: 1em;
-    overflow: hidden; }
+    max-width: none;
+    max-height: none; }
 .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
   margin-bottom: 0.5em; }
 .reveal section[data-background] h1, .reveal section[data-background] h2, .reveal section[data-background] h3, .reveal section[data-background] h4, .reveal section[data-background] h5, .reveal section[data-background] h6, .reveal section[data-background] p {
