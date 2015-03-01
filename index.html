@@ -164,12 +164,17 @@ end
 
 ***
 
+# X and Y
+# A or B
+
+***
+
 ``` ruby
 class Person
-  attr_accessor :salary, :body
+  attr_accessor :job, :body
 
-  def initialize(salary, body)
-    @salary = salary
+  def initialize(job, body)
+    @job = job
     @body = body
   end
 
@@ -177,15 +182,14 @@ class Person
     body.mass
   end
 
-  def due_pay(days)
-    salary * days
+  def due_payment(days)
+    job.due_payment(days)
   end
 end
 
 ```
 
 ***
-
 
 ## Dependencies
 
@@ -213,6 +217,24 @@ end
 ```
 
 ***
+
+### Types of dependencies
+
+***
+
+TODO
+
+***
+
+## Messages
+
+***
+
+## Inheritance, Modules & Composition
+
+***
+
+
 
 
 
