@@ -267,14 +267,25 @@ body {
     padding: 1em;
     max-width: none;
     max-height: none; }
+.reveal h1 {
+  font-size: 3.4em; }
 .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
-  margin-bottom: 0.5em; }
+  margin-bottom: 0.5em;
+  text-size-adjust: auto; }
 .reveal section[data-background] h1, .reveal section[data-background] h2, .reveal section[data-background] h3, .reveal section[data-background] h4, .reveal section[data-background] h5, .reveal section[data-background] h6, .reveal section[data-background] p {
   color: #ffffea;
   text-shadow: 1px 1px 1px #666; }
 .reveal section[data-background] a {
   color: #99bfd9; }
+.reveal section[data-background] blockquote {
+  background-color: rgba(255, 255, 255, 0.7); }
+  .reveal section[data-background] blockquote p {
+    color: #333;
+    text-shadow: none; }
 .reveal section img {
   border: none; }
   .reveal section img.plain {
     box-shadow: none; }
+.reveal cite {
+  font-style: normal;
+  font-size: 0.7em; }
