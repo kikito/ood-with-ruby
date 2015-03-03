@@ -54,6 +54,10 @@
 
 ***
 
+TODO Intro(+warning?)
+
+***
+
 ``` ruby
 puts "Hello World!"
 ```
@@ -73,6 +77,10 @@ puts "Hello World!"
 
 ***
 
+<!-- .slide: data-background="./img/baby.jpg" -->
+
+***
+
 <!-- .slide: data-background="./img/beach-tennis.jpg" -->
 
 ***
@@ -82,14 +90,6 @@ puts "Hello World!"
 ***
 
 ### 1. Economical constraints
-
-### 2. Understandable by humans
-
-### 3. Subject to *change*
-
-***
-
-### <del>1. Economical constraints</del>
 
 ### 2. Understandable by humans
 
@@ -129,7 +129,11 @@ puts "Hello World!"
 
 ***
 
-## Responsibility
+<!-- .slide: data-background="./img/bicycle.jpg" -->
+
+***
+
+# Responsibility
 
 ***
 
@@ -171,6 +175,41 @@ end
 
 ``` ruby
 class Person
+  attr_accessor :height, :weight
+
+  def initialize(width, height)
+    @width = width
+    @height = height
+  end
+
+  def body_mass
+    weight / (height * height)
+  end
+end
+
+```
+
+***
+
+``` ruby
+class Employee < Person
+  attr_accessor :salary
+
+  def initialize(width, height, salary)
+    super(width, height)
+    @salary = salary
+  end
+
+  def due_payment(days)
+    salary * days
+  end
+end
+```
+
+***
+
+``` ruby
+class Person
   attr_accessor :job, :body
 
   def initialize(job, body)
@@ -186,60 +225,327 @@ class Person
     job.due_payment(days)
   end
 end
-
 ```
+***
+
+# Dependencies
 
 ***
 
-## Dependencies
+> Everything a class knows about another class
 
 ***
 
-> Everything a class knows about other classes
+* Name of the other class
+* Method names (other than `self`)
+* Arguments of those methods
+* Order of those arguments
 
 ***
 
 ``` ruby
 class House
-  def initialize(neighborhood, )
-    x
+
+  attr_accessor :door
+
+  def initialize(door_material)
+    @door = Door.new(door_material)
   end
 
-  def area
-    Rect.new(@width, @height).area
-  end
-
-  def foo
-    far
+  def enter()
+    door.open()
   end
 end
-
 ```
 
 ***
 
-### Types of dependencies
+``` ruby
+class House
+
+  attr_accessor :door
+
+  def initialize(door_material) # <= 1 Dep
+    @door = Door.new(door_material) # <= 2 Deps
+  end
+
+  def enter()
+    door.open() # <= 1 Dep
+  end
+
+end
+```
 
 ***
 
-TODO
+``` ruby
+class House
+
+  attr_accessor :door
+
+  def initialize(door)
+    @door = door
+  end
+
+  def enter()
+    door.open() # <= 1 Dep
+  end
+
+end
+```
 
 ***
 
-## Messages
+## Dependency Injection
 
 ***
 
-## Inheritance, Modules & Composition
+<!-- .slide: data-background="./img/money.jpg" -->
+
+> “Dependency Injection” is a 25-dollar term for a 5-cent concept
+>
+> <cite>– James Shore, [Dependency Injection Demystified](http://www.jamesshore.com/Blog/Dependency-Injection-Demystified.html)</cite>
 
 ***
 
+# Inheritance & Composition
 
+***
 
+## Inheritance
 
+***
 
+``` ruby
+class Person
+  attr_accessor :height, :weight
 
-## Questions?
+  def initialize(width, height)
+    @width = width
+    @height = height
+  end
+
+  def body_mass
+    weight / (height * height)
+  end
+end
+```
+
+***
+
+``` ruby
+class Employee < Person
+  attr_accessor :salary
+
+  def initialize(width, height, salary)
+    super(width, height)
+    @salary = salary
+  end
+
+  def due_payment(days)
+    salary * days
+  end
+end
+```
+
+***
+
+``` ruby
+class Employee < Person # <= Dep
+  attr_accessor :salary
+
+  def initialize(width, height, salary) # <= Dep
+    super(width, height) # <= Dep
+    @salary = salary
+  end
+
+  def due_payment(days)
+    salary * days
+  end
+end
+```
+
+***
+
+``` ruby
+class Employee < Person # <= Dep
+  attr_accessor :salary
+
+  def initialize(attributes)
+    super(attributes) # <= Dep
+    @salary = attributes[:salary]
+  end
+
+  def due_payment(days)
+    salary * days
+  end
+end
+```
+
+***
+
+``` ruby
+class Sponsor < Person
+  attr_accessor :logo
+
+  def initialize(attributes)
+                               # <== super?
+    @logo = attributes[:logo]
+  end
+
+  ...
+
+end
+```
+
+***
+
+``` ruby
+class Person
+  attr_accessor :height, :weight
+
+  def initialize(attributes)
+    @weight = attributes[:weight]
+    @height = attributes[:height]
+
+    post_initialize(attributes) # <= Hook
+  end
+
+  def post_initialize
+    nil
+  end
+
+  ...
+
+end
+```
+
+***
+
+``` ruby
+class Employee < Person # <==
+  attr_accessor :salary
+
+  def post_initialize(attributes)
+    @salary = attributes[:salary]
+  end
+
+  def due_payment(days)
+    salary * days
+  end
+end
+```
+
+***
+
+## Composition
+
+***
+
+``` ruby
+class Person
+  attr_accessor :job, :body
+
+  def initialize(job, body)
+    @job = job
+    @body = body
+  end
+
+  def body_mass
+    body.mass
+  end
+
+  def due_payment(days)
+    job.due_payment(days)
+  end
+end
+```
+
+***
+
+``` ruby
+class Person
+  attr_accessor :job, :body
+
+  def initialize(job, body)
+    @job = job
+    @body = body
+  end
+
+  def body_mass
+    body.mass # <= 1 Dep (mass)
+  end
+
+  def due_payment(days)
+    job.due_payment(days) # <= 1 Dep (body)
+  end
+end
+```
+
+***
+
+``` ruby
+class Sponsor
+  attr_accessor :logo, :body
+
+  def initialize(body, logo)
+    @body = body
+    @logo = logo
+  end
+
+  def body_mass # <= Duplicated code
+    body.mass # <= 1 Dep (mass)
+  end
+
+  ...
+end
+```
+
+***
+
+<!-- .slide: data-background="./img/tetris.png" -->
+
+***
+
+# Messages
+
+***
+
+```ruby
+"hello".concat("world")
+```
+
+```ruby
+"hello".send(:concat, "world")
+```
+
+***
+
+TODO: Schema (instance -> class)
+
+***
+
+TODO: Schema (instance -> class -> superclass)
+
+***
+
+TODO: Schema (instance -> class -> superclass)
+
+***
+
+# Conclusion
+
+***
+
+<!-- .slide: data-background="./img/change-management.jpg" -->
+
+***
+
+# Thank you
+
+***
+
+# Questions?
 
 ---
 
