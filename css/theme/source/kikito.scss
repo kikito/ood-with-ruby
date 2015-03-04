@@ -50,6 +50,7 @@ $altLinkColor: lighten($linkColor, 30%);
     height: 100%;
   }
 
+
   pre {
     font-size: 0.7em;
     code {
@@ -79,9 +80,14 @@ $altLinkColor: lighten($linkColor, 30%);
 
       blockquote {
         background-color: rgba(255,255,255,0.7);
+
         p {
           color: $mainColor;
           text-shadow: none;
+        }
+
+        a {
+          color: darken($linkColor, 10%);
         }
       }
     }
@@ -93,6 +99,24 @@ $altLinkColor: lighten($linkColor, 30%);
         box-shadow: none;
       }
     }
+
+    .subtitle {
+      background-color: rgba(255,255,255,0.5);
+      padding: 1em;
+      margin: 0 1em;
+      border-radius: 0.5em;
+
+      p {
+        text-shadow: none;
+        color: $mainColor;
+      }
+
+      a {
+        color: darken($linkColor, 10%);
+      }
+
+    }
+
   }
 
   cite {

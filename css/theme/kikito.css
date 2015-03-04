@@ -282,10 +282,22 @@ body {
   .reveal section[data-background] blockquote p {
     color: #333;
     text-shadow: none; }
+  .reveal section[data-background] blockquote a {
+    color: #2d5b79; }
 .reveal section img {
   border: none; }
   .reveal section img.plain {
     box-shadow: none; }
+.reveal section .subtitle {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 1em;
+  margin: 0 1em;
+  border-radius: 0.5em; }
+  .reveal section .subtitle p {
+    text-shadow: none;
+    color: #333; }
+  .reveal section .subtitle a {
+    color: #2d5b79; }
 .reveal cite {
   font-style: normal;
   font-size: 0.7em; }
