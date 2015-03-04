@@ -50,11 +50,25 @@
 
 [Enrique García Cota](http://kiki.to) ([@otikik](http://twitter.com/otikik))
 
-[Córdoba](http://www.meetup.com/Barcelona-on-Rails/) - Mar 2015
+[@betabeersODB](https://twitter.com/betabeersod://twitter.com/betabeersodb) - Mar 2015
 
 ***
 
-TODO Intro(+warning?)
+<!-- .slide: data-background="#008AB8" -->
+
+## Intro
+## Responsibility
+## Dependencies
+## Messages
+## Conclusion
+
+***
+
+<!-- .slide: data-background="#008AB8" -->
+
+# Intro
+
+***
 
 ***
 
@@ -133,6 +147,8 @@ puts "Hello World!"
 
 ***
 
+<!-- .slide: data-background="#008AB8" -->
+
 # Responsibility
 
 ***
@@ -155,11 +171,11 @@ class Person
     @weight = weight
   end
 
-  def body_mass
+  def bmi
     weight / (height * height)
   end
 
-  def due_pay(days)
+  def due_payment(days)
     salary * days
   end
 end
@@ -182,7 +198,7 @@ class Person
     @height = height
   end
 
-  def body_mass
+  def bmi
     weight / (height * height)
   end
 end
@@ -217,8 +233,8 @@ class Person
     @body = body
   end
 
-  def body_mass
-    body.mass
+  def bmi
+    body.bmi
   end
 
   def due_payment(days)
@@ -227,6 +243,8 @@ class Person
 end
 ```
 ***
+
+<!-- .slide: data-background="#008AB8" -->
 
 # Dependencies
 
@@ -248,13 +266,14 @@ class House
 
   attr_accessor :door
 
-  def initialize(door_material)
-    @door = Door.new(door_material)
+  def initialize(material, color)
+    @door = Door.new(material, color)
   end
 
   def enter()
     door.open()
   end
+
 end
 ```
 
@@ -265,8 +284,8 @@ class House
 
   attr_accessor :door
 
-  def initialize(door_material) # <= 1 Dep
-    @door = Door.new(door_material) # <= 2 Deps
+  def initialize(material, color) # <= 1 Dep
+    @door = Door.new(material, color) # <= 2 Deps
   end
 
   def enter()
@@ -308,6 +327,61 @@ end
 
 ***
 
+## Dependency Inversion
+
+***
+
+``` ruby
+class House
+
+  attr_accessor :door
+
+  def initialize(door)
+    @door = door
+  end
+
+  def enter()
+    door.open() # <= 1 Dep
+  end
+
+end
+```
+
+***
+
+``` ruby
+class Door
+
+  attr_accessor :house
+
+  def initialize(house)
+    @house = house
+  end
+
+  def enter()
+    house.visit() # <= 1 Dep
+  end
+
+end
+```
+
+***
+
+## Where should dependencies point towards?
+
+***
+
+## What changes *less*?
+
+***
+
+* Ruby Standard Library (`Hash`, `Array`, `String`)
+* If possible, point dependencies towadds *Abstractions*, not towards *Details*
+
+***
+
+<!-- .slide: data-background="#008AB8" -->
+
 # Inheritance & Composition
 
 ***
@@ -325,7 +399,7 @@ class Person
     @height = height
   end
 
-  def body_mass
+  def bmi
     weight / (height * height)
   end
 end
@@ -451,8 +525,8 @@ class Person
     @body = body
   end
 
-  def body_mass
-    body.mass
+  def bmi
+    body.bmi
   end
 
   def due_payment(days)
@@ -472,12 +546,12 @@ class Person
     @body = body
   end
 
-  def body_mass
-    body.mass # <= 1 Dep (mass)
+  def bmi
+    body.bmi # <= 1 D (method)
   end
 
-  def due_payment(days)
-    job.due_payment(days) # <= 1 Dep (body)
+  def due_payment(days) # <= 1 D (params)
+    job.due_payment(days) # <= 2 D (method, par)
   end
 end
 ```
@@ -485,19 +559,82 @@ end
 ***
 
 ``` ruby
+require 'forwardable'
+
+class Person
+  extend Forwardable # <== Std Lib
+
+  attr_accessor :job, :body
+
+  def initialize(job, body)
+    @job = job
+    @body = body
+  end
+
+  def_delegator :body, :bmi
+  def_delegator :job, :due_payment
+
+end
+```
+
+***
+
+``` ruby
+require 'forwardable'
+
 class Sponsor
+  extend Forwardable
+
   attr_accessor :logo, :body
 
-  def initialize(body, logo)
-    @body = body
+  def initialize(logo, body)
     @logo = logo
+    @body = body
   end
 
-  def body_mass # <= Duplicated code
-    body.mass # <= 1 Dep (mass)
-  end
+  def_delegator :body, :bmi
 
   ...
+end
+```
+***
+
+``` ruby
+require 'forwardable'
+
+class Sponsor
+  extend Forwardable
+
+  attr_accessor :logo, :body # <==
+
+  def initialize(logo, body)
+    @logo = logo
+    @body = body # <==
+  end
+
+  def_delegator :body, :bmi # <==
+
+  ...
+end
+```
+***
+
+``` ruby
+require 'forwardable'
+
+class Person
+  extend Forwardable
+
+  attr_accessor :job, :body # <==
+
+  def initialize(job, body)
+    @job = job
+    @body = body # <==
+  end
+
+  def_delegator :body, :bmi # <==
+  def_delegator :job, :due_payment
+
 end
 ```
 
@@ -506,6 +643,8 @@ end
 <!-- .slide: data-background="./img/tetris.png" -->
 
 ***
+
+<!-- .slide: data-background="#008AB8" -->
 
 # Messages
 
@@ -521,23 +660,40 @@ end
 
 ***
 
-TODO: Schema (instance -> class)
+TODO: Schema (instance -> class -> superclass -> Mixins)
 
 ***
 
-TODO: Schema (instance -> class -> superclass)
+```ruby
+lamp.turn_on
+```
+
+```ruby
+client.pay(invoice)
+```
+
+```ruby
+playlist.add_tracks(track1, track2)
+```
 
 ***
 
-TODO: Schema (instance -> class -> superclass)
+## Who should I send this message to?
 
 ***
+
+<!-- .slide: data-background="#008AB8" -->
 
 # Conclusion
 
 ***
 
 <!-- .slide: data-background="./img/change-management.jpg" -->
+
+***
+
+<!-- .slide: data-background="./img/depende.jpg" -->
+
 
 ***
 
