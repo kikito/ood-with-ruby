@@ -165,9 +165,14 @@ puts "Hello World!"
 
 ***
 
+# X and Y
+# A or B
+
+***
+
 ``` ruby
 class Person
-  attr_accessor :salary, :height, :width
+  attr_accessor :salary, :height, :weight
 
   def initialize(salary, height, weight)
     @salary = salary
@@ -188,17 +193,12 @@ end
 
 ***
 
-# X and Y
-# A or B
-
-***
-
 ``` ruby
 class Person
   attr_accessor :height, :weight
 
-  def initialize(width, height)
-    @width = width
+  def initialize(weight, height)
+    @weight = weight
     @height = height
   end
 
@@ -215,8 +215,8 @@ end
 class Employee < Person
   attr_accessor :salary
 
-  def initialize(width, height, salary)
-    super(width, height)
+  def initialize(weight, height, salary)
+    super(weight, height)
     @salary = salary
   end
 
@@ -398,8 +398,8 @@ end
 class Person
   attr_accessor :height, :weight
 
-  def initialize(width, height)
-    @width = width
+  def initialize(weight, height)
+    @weight = weight
     @height = height
   end
 
@@ -415,8 +415,8 @@ end
 class Employee < Person
   attr_accessor :salary
 
-  def initialize(width, height, salary)
-    super(width, height)
+  def initialize(weight, height, salary)
+    super(weight, height)
     @salary = salary
   end
 
@@ -432,8 +432,8 @@ end
 class Employee < Person # <= Dep
   attr_accessor :salary
 
-  def initialize(width, height, salary) # <= Dep
-    super(width, height) # <= Dep
+  def initialize(weight, height, salary) # <= Dep
+    super(weight, height) # <= Dep
     @salary = salary
   end
 
@@ -482,6 +482,23 @@ end
 class Person
   attr_accessor :height, :weight
 
+  def initialize(weight, height)
+    @weight = weight
+    @height = height
+  end
+
+  def bmi
+    weight / (height * height)
+  end
+end
+```
+
+***
+
+``` ruby
+class Person
+  attr_accessor :height, :weight
+
   def initialize(attributes)
     @weight = attributes[:weight]
     @height = attributes[:height]
@@ -489,7 +506,7 @@ class Person
     post_initialize(attributes) # <= Hook
   end
 
-  def post_initialize
+  def post_initialize(attributes)
     nil
   end
 
@@ -664,6 +681,12 @@ end
 
 ***
 
+### Inheritance, Modules, Composition
+###   =
+### message dispatching
+
+***
+
 <!-- .slide: data-background="./img/snake.png" -->
 
 ***
@@ -682,7 +705,39 @@ playlist.add_tracks(track1, track2)
 
 ***
 
+```ruby
+lamp
+```
+
+```ruby
+client
+```
+
+```ruby
+playlist
+```
+
+***
+
+```ruby
+    .turn_on
+```
+
+```ruby
+     .pay(invoice)
+```
+
+```ruby
+       .add_tracks(track1, track2)
+```
+
+***
+
 ## Who should I send this message to?
+
+***
+
+## ⇒ New class discoverer
 
 ***
 
@@ -698,6 +753,9 @@ playlist.add_tracks(track1, track2)
 
 <!-- .slide: data-background="./img/depende.jpg" -->
 
+***
+
+<!-- .slide: data-background="./img/poodr.png" -->
 
 ***
 
