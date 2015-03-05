@@ -580,9 +580,9 @@ end
 class Person
   attr_accessor :height, :weight
 
-  def initialize(weight, height)
-    @weight = weight
-    @height = height
+  def initialize(attributes)
+    @weight = attributes[:weight]
+    @height = attributes[:height]
   end
 
   def bmi
