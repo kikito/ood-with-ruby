@@ -527,11 +527,11 @@ end
 ***
 
 ``` ruby
-class Employee < Person # <= Dep
+class Employee < Person # <= D
   attr_accessor :salary
 
-  def initialize(weight, height, salary) # <= Dep
-    super(weight, height) # <= Dep
+  def initialize(weight, height, salary) # <= D
+    super(weight, height) # <= D
     @salary = salary
   end
 
@@ -544,11 +544,11 @@ end
 ***
 
 ``` ruby
-class Employee < Person # <= Dep
+class Employee < Person # <= D
   attr_accessor :salary
 
   def initialize(attributes)
-    super(attributes) # <= Dep
+    super(attributes) # <= D
     @salary = attributes[:salary]
   end
 
@@ -608,7 +608,9 @@ class Person
     nil
   end
 
-  ...
+  def bmi
+    weight / (height * height)
+  end
 
 end
 ```
