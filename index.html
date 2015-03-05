@@ -266,16 +266,56 @@ end
 ***
 
 ``` ruby
+class Door
+
+  attr_accessor :material
+
+  def initialize(material)
+    @material = material
+  end
+
+  def open()
+    puts "Opening the #{material} door"
+  end
+end
+```
+
+***
+
+``` ruby
+class Door
+
+  attr_accessor :material
+
+  def initialize(material)
+    @material = material
+  end
+
+  def open()
+    puts "Opening the #{material} door" # <= D
+  end
+end
+```
+
+***
+
+``` ruby
 class House
 
-  attr_accessor :door
+  attr_accessor :color, :material
 
-  def initialize(material, color)
-    @door = Door.new(material, color)
+  def initialize(color, material)
+    @color = color
+    @door = Door.new(material)
   end
 
   def enter()
     door.open()
+    visit()
+  end
+
+  def visit()
+    puts "Visiting the #{color} house"
   end
 
 end
@@ -286,32 +326,43 @@ end
 ``` ruby
 class House
 
-  attr_accessor :door
+  attr_accessor :color, :material
 
-  def initialize(material, color) # <= 1 Dep
-    @door = Door.new(material, color) # <= 2 Deps
+  def initialize(color, material) # <= D
+    @color = color
+    @door = Door.new(material) # <= D
   end
 
   def enter()
-    door.open() # <= 1 Dep
+    door.open() # <= D
+    visit()
+  end
+
+  def visit()
+    puts "Visiting the #{color} house" # <= D
   end
 
 end
 ```
-
 ***
 
 ``` ruby
 class House
 
-  attr_accessor :door
+  attr_accessor :color, :door
 
-  def initialize(door)
+  def initialize(color, door)
+    @color = color
     @door = door
   end
 
   def enter()
-    door.open() # <= 1 Dep
+    door.open() # <= D
+    visit()
+  end
+
+  def visit()
+    puts "Visiting the #{color} house" # <= D
   end
 
 end
@@ -338,14 +389,38 @@ end
 ``` ruby
 class House
 
-  attr_accessor :door
+  attr_accessor :color, :door
 
-  def initialize(door)
+  def initialize(color, door)
+    @color = color
     @door = door
   end
 
   def enter()
-    door.open() # <= 1 Dep
+    door.open() # <= D
+    visit()
+  end
+
+  def visit()
+    puts "Visiting the #{color} house" # <= D
+  end
+
+end
+```
+
+***
+
+``` ruby
+class House
+
+  attr_accessor :color
+
+  def initialize(color)
+    @color = color
+  end
+
+  def visit()
+    puts "Visiting the #{color} house" # <= D
   end
 
 end
@@ -356,17 +431,40 @@ end
 ``` ruby
 class Door
 
-  attr_accessor :house
+  attr_accessor :material, :house
 
-  def initialize(house)
+  def initialize(material, house)
+    @material = material
     @house = house
   end
 
   def enter()
-    house.visit() # <= 1 Dep
+    open()
+    house.visit() # <= D
+  end
+
+  def open()
+    puts "Opening the #{material} door" # <= D
   end
 
 end
+```
+
+
+***
+
+```ruby
+door = Door.new('wood')
+house = House.new('white', door)
+house.enter()
+```
+
+## vs
+
+```ruby
+house = House.new('white')
+door = Door.new('wood', house)
+door.enter()
 ```
 
 ***
@@ -568,11 +666,11 @@ class Person
   end
 
   def bmi
-    body.bmi # <= 1 D (method)
+    body.bmi # <= D
   end
 
-  def due_payment(days) # <= 1 D (params)
-    job.due_payment(days) # <= 2 D (method, par)
+  def due_payment(days) # <= D
+    job.due_payment(days) # <= D
   end
 end
 ```
