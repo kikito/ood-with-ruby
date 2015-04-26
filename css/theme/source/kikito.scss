@@ -80,6 +80,12 @@ $altLinkColor: lighten($linkColor, 30%);
     max-height: 100%;
   }
 
+  .bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
   section{
 
     blockquote {
