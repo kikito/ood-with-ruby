@@ -332,7 +332,7 @@ class House
   end
 
   def enter()
-    door.open()
+    @door.open()
     visit()
   end
 
@@ -356,7 +356,7 @@ class House
   end
 
   def enter()
-    door.open() # <= D
+    @door.open() # <= D
     visit()
   end
 
@@ -508,6 +508,50 @@ door.enter()
 ### Point dependencies towards
 
 ## the *Abstraction*, not the *Detail*
+
+***
+
+``` ruby
+class Person
+  attr_accessor :salary, :height, :weight
+
+  def initialize(salary, height, weight)
+    @salary = salary
+    @height = height
+    @weight = weight
+  end
+
+  def bmi
+    weight / (height * height)
+  end
+
+  def due_payment(days)
+    salary * days
+  end
+end
+
+```
+
+***
+
+``` ruby
+class Person
+  attr_accessor :job, :body
+
+  def initialize(job, body)
+    @job = job
+    @body = body
+  end
+
+  def bmi
+    body.bmi
+  end
+
+  def due_payment(days)
+    job.due_payment(days)
+  end
+end
+```
 
 ***
 
